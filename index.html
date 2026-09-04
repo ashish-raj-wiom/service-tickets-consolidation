@@ -145,7 +145,7 @@
     <div class="wc bad">
       <h3>What three services cost us today</h3>
       <ul>
-        <li>Three <b>state machines</b> — "resolved" means something different in each</li>
+        <li>Three <b>state machines</b>. <code>CLOSED</code> exists in two of them and means different things — in SRS it means the Quality signal was sent, not that the work is done</li>
         <li>Three <b>databases</b>, none authoritative</li>
         <li>Three sets of <b>backend logic</b> that have gone unchecked against each other</li>
         <li>The systems do not talk effectively — data stops at boundaries nobody owns</li>
@@ -157,7 +157,7 @@
       <ul>
         <li><b>One store.</b> Agent view, CSP app and customer app all read the same record</li>
         <li><b>One logic engine</b> — reopening, TAT and classification defined once</li>
-        <li><b>One state machine.</b> A ticket in <code>Resolved</code> means the same to every reader</li>
+        <li><b>One state machine.</b> <code>CLOSED</code> means one thing, to every reader</li>
         <li><b>No sync layer</b>, so no sync failures to detect, reconcile or explain</li>
         <li>One identity — CSP and customer profiles read from our systems, not re-created</li>
       </ul>
