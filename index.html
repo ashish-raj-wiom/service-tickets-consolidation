@@ -111,6 +111,11 @@
   .flag { font-size:.83rem; color:var(--ink-soft); background:var(--accent-wash); border-radius:6px; padding:9px 13px; margin-top:11px; max-width:78ch; }
   .flag b { color:var(--accent); }
 
+  .dec { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:8px; margin-bottom:16px; }
+  .dr { background:var(--surface); border:1px solid var(--rule); border-left:3px solid var(--good); border-radius:7px; padding:10px 13px; }
+  .dr b { display:block; font-size:.8rem; font-weight:650; color:var(--ink); margin-bottom:2px; }
+  .dr span { font-size:.79rem; color:var(--slate); line-height:1.42; }
+  .dr .ans { color:var(--good); font-weight:600; }
   .qs { border:1px solid var(--rule); border-left:3px solid var(--crit); border-radius:8px; background:var(--surface); padding:16px 20px; }
   .qs h3 { font-size:.95rem; font-weight:650; margin:0 0 10px; }
   .qs ol { margin:0; padding-left:18px; font-size:.87rem; line-height:1.55; color:var(--ink-soft); }
@@ -312,9 +317,6 @@
         <div class="part"><b>All ten categories</b><span>Every workflow Kapture carries today, not just service tickets</span></div>
         <div class="part"><b>Roles &amp; access control</b><span>Agent permissions Kapture enforces today have to exist here</span></div>
       </div>
-      <p class="flag"><b>Scope risk.</b> If Kapture also provides telephony — call pop-up,
-      click-to-dial, recording — this block is materially larger than a ticket UI. That must be
-      confirmed before this page becomes a plan.</p>
     </div>
   </div>
 
@@ -354,7 +356,7 @@
       open at the moment of cutover.</p>
       <div class="parts">
         <div class="part"><b>Schema &amp; state mapping</b><span>Four status vocabularies reconciled to one, record by record</span></div>
-        <div class="part"><b>Historical backfill</b><span>Volume to be confirmed — creation runs well over a thousand a day</span></div>
+        <div class="part"><b>Historical backfill</b><span>Last six months migrate in full; older records archive-only</span></div>
         <div class="part"><b>In-flight cutover</b><span>Hundreds of tickets are open at any moment; none can be stranded</span></div>
         <div class="part"><b>Reconciliation</b><span>Proving old and new agree before we trust the new one</span></div>
       </div>
@@ -368,6 +370,7 @@
       <div class="parts">
         <div class="part"><b>Dual-run</b><span>Both systems processing, differences surfaced rather than discovered</span></div>
         <div class="part"><b>CSP-wise phasing</b><span>A controlled cohort before general rollout</span></div>
+        <div class="part"><b>CX training</b><span>Agents move off Kapture — owned by the CX team, sequenced ahead of each phase</span></div>
         <div class="part"><b>Reconciliation dashboards</b><span>The measure that decides whether we proceed</span></div>
         <div class="part"><b>Rollback path</b><span>Real, not nominal — once agents write to the new store, going back means reverse migration</span></div>
       </div>
@@ -391,16 +394,20 @@
 
 <!-- ============ 05 BEFORE WE COMMIT ============ -->
 <section class="sec">
-  <div class="sec-head"><span class="sec-num">05</span><h2>Answer before approving</h2></div>
+  <div class="sec-head"><span class="sec-num">05</span><h2>Decisions taken</h2></div>
+  <div class="dec">
+    <div class="dr"><b>Telephony</b><span><span class="ans">Not in Kapture.</span> The console is a ticket surface, not a CTI programme — the largest sizing risk is closed</span></div>
+    <div class="dr"><b>Ticket scope</b><span><span class="ans">All ten categories.</span> The new service takes every ticket type, not only service</span></div>
+    <div class="dr"><b>History</b><span><span class="ans">Last six months</span> migrate in full; older records archive-only</span></div>
+    <div class="dr"><b>CX adoption</b><span><span class="ans">CX team owns it</span>, with training sequenced ahead of each rollout phase</span></div>
+    <div class="dr"><b>Ownership after launch</b><span><span class="ans">Product team</span> owns the service</span></div>
+  </div>
+
   <div class="qs">
-    <h3>Six things to settle before this is a plan</h3>
+    <h3>Deferred — not answered, and both become blocking later</h3>
     <ol>
-      <li><b>Does Kapture provide telephony?</b> Call pop-up, click-to-dial or recording would make the agent console a CTI programme rather than a ticket UI. The single biggest swing factor on size.</li>
-      <li><b>What are the Kapture exit terms, and can we get our data out?</b> Notice period and lock-in decide when the saving actually starts. Whether a full, usable history export exists decides whether migration is possible at all.</li>
-      <li><b>What else does CX run in Kapture beyond tickets?</b> SLA reporting, agent performance, QA scoring — none of it is visible in our repositories, and all of it needs a home.</li>
-      <li><b>How much history migrates, and how far back?</b> This sets the size of the migration and whether archive-only is acceptable for older records.</li>
-      <li><b>Who owns the downstream changes, and who owns CX adoption?</b> Files sit with five other teams, and agents work in Kapture all day — moving them is a change-management job with a named owner, not a release note.</li>
-      <li><b>Who owns the service after launch?</b> One service touching CX, CSP and customer surfaces will attract requests from all three, indefinitely.</li>
+      <li><b>Kapture exit terms and data extraction.</b> Deferred for now, but it decides two things: when the ₹2.5L/month actually stops, and whether six months of history can be pulled out at all. If a usable export does not exist, the migration plan needs a different shape — so this has to be settled before the migration is built, not before it is approved.</li>
+      <li><b>What else CX runs in Kapture.</b> Not a priority today, but SLA reporting, agent performance and QA scoring all disappear when Kapture does. This becomes blocking before decommission.</li>
     </ol>
   </div></section>
 
