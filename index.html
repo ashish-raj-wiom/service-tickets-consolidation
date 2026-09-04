@@ -77,6 +77,21 @@
   .wc li { margin-bottom:4px; }
   .wc li:last-child { margin-bottom:0; }
 
+  .swap { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:22px; }
+  @media (max-width:720px) { .swap { grid-template-columns:1fr; } }
+  .sw { border:1px solid var(--rule); border-radius:8px; background:var(--surface); padding:14px 16px; }
+  .sw.out { border-top:3px solid var(--crit); }
+  .sw.in  { border-top:3px solid var(--good); }
+  .sw.same{ border-top:3px solid var(--slate-light); }
+  .sw-l { font-size:9.5px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; display:block; margin-bottom:8px; }
+  .sw.out .sw-l { color:var(--crit); } .sw.in .sw-l { color:var(--good); } .sw.same .sw-l { color:var(--slate); }
+  .sw ul { margin:0; padding-left:16px; font-size:.86rem; line-height:1.5; color:var(--ink-soft); }
+  .sw li { margin-bottom:4px; } .sw li:last-child { margin-bottom:0; }
+  .map td:first-child { font-weight:650; white-space:normal; }
+  .map .now { color:var(--crit); }
+  .map .next { color:var(--good); font-weight:550; }
+  .map tr.nc td { color:var(--slate); }
+
   /* build blocks */
   .bb { border:1px solid var(--rule); border-radius:9px; background:var(--surface); margin-bottom:14px; overflow:hidden; }
   .bb-h { display:flex; align-items:baseline; gap:11px; padding:12px 17px; background:var(--surface-alt); border-bottom:1px solid var(--rule); }
@@ -186,28 +201,52 @@
   </div>
 </section>
 
-<!-- ============ 03 WHAT GETS RETIRED ============ -->
+<!-- ============ 03 MAPPING ============ -->
 <section class="sec">
-  <div class="sec-head"><span class="sec-num">03</span><h2>What gets retired</h2></div>
-  <p class="lede">Measured from the current codebases, so the scope is a count rather than an
-  impression.</p>
+  <div class="sec-head"><span class="sec-num">03</span><h2>What goes, what arrives</h2></div>
+
+  <div class="swap">
+    <div class="sw out">
+      <span class="sw-l">Removed</span>
+      <ul><li>Kapture</li><li>Ticket Service Java</li><li>SRS</li></ul>
+    </div>
+    <div class="sw in">
+      <span class="sw-l">Created</span>
+      <ul><li>New Ticket Service</li><li>Wiom Hub agent console</li></ul>
+    </div>
+    <div class="sw same">
+      <span class="sw-l">Unchanged</span>
+      <ul><li>TAS</li><li>CSP app</li><li>Customer app</li></ul>
+    </div>
+  </div>
+
+  <p class="lede">Nothing is dropped — every responsibility the three services hold today lands
+  somewhere specific. This is the mapping.</p>
 
   <div class="tw">
-    <table>
-      <tr><th>Service</th><th>Files</th><th>Lines</th><th>Endpoints</th><th>Stores</th><th>Test coverage</th></tr>
-      <tr><td>SRS</td><td class="num">134</td><td class="num">9,613</td><td class="num">31</td><td class="num">6 entities · 20 migrations</td><td class="num">44%</td></tr>
-      <tr><td>Ticket Service Java</td><td class="num">230</td><td class="num">23,369</td><td class="num">73</td><td class="num">5 DynamoDB tables</td><td class="num">2.5%</td></tr>
-      <tr><td>Kapture</td><td class="num">3rd party</td><td class="num">—</td><td class="num">—</td><td class="num">its own DB</td><td class="num">—</td></tr>
-      <tr class="tot"><td>Total</td><td class="num">364</td><td class="num">~33,000</td><td class="num">104</td><td class="num">11+</td><td class="num">—</td></tr>
+    <table class="map">
+      <tr><th>Responsibility</th><th>Today</th><th>After</th></tr>
+      <tr><td>The ticket record</td><td class="now">Three copies — Kapture, Ticket Service, SRS</td><td class="next">One record in the New Ticket Service</td></tr>
+      <tr><td>Ticket state</td><td class="now">Four vocabularies, no shared word</td><td class="next">One state machine</td></tr>
+      <tr><td>Deadline / TAT</td><td class="now">Two engines that never read each other</td><td class="next">One engine, one clock, every surface</td></tr>
+      <tr><td>Classification</td><td class="now">Kapture dropdown, re-derived again in SRS</td><td class="next">One mapping, applied once</td></tr>
+      <tr><td>Agent workspace</td><td class="now">Kapture</td><td class="next">Wiom Hub, on our own data</td></tr>
+      <tr><td>Agent &amp; CSP profiles</td><td class="now">Re-created inside Kapture</td><td class="next">Read from our existing identity systems</td></tr>
+      <tr><td>CSP contact shown to the customer</td><td class="now">A legacy mapping table</td><td class="next">The live CSP record</td></tr>
+      <tr><td>Call context &amp; comments</td><td class="now">Captured, then stops at Kapture</td><td class="next">On the ticket, visible to the CSP</td></tr>
+      <tr><td>Reopen lineage</td><td class="now">Stored in SRS, never sent onward</td><td class="next">Carried to the CSP and to scoring</td></tr>
+      <tr><td>Verification &amp; closure</td><td class="now">SRS, with a check that cannot block</td><td class="next">One closure rule that can fail</td></tr>
+      <tr><td>Quality signal</td><td class="now">SRS</td><td class="next">New Ticket Service</td></tr>
+      <tr><td>Customer-facing ticket view</td><td class="now">Ticket Service Java</td><td class="next">New Ticket Service</td></tr>
+      <tr class="nc"><td>CSP execution card</td><td>TAS</td><td>TAS — unchanged, new contract</td></tr>
     </table>
   </div>
 
-  <p class="flag"><b>The number that should drive the plan.</b> Ticket Service Java carries
-  <b>592 lines of test against 23,369 lines of code</b>. It is the largest of the three, the
-  oldest, and holds 3,000+ references to Kapture — and almost nothing records what its correct
-  behaviour is. Rebuilding it is not porting logic; it is re-deriving business rules from source,
-  with no safety net telling us when we got one wrong. <b>Behaviour extraction has to be a funded
-  piece of work, not an assumption.</b></p>
+  <p class="flag"><b>The risk worth naming now.</b> Ticket Service Java is the largest of the three,
+  the oldest, and carries almost no automated tests — very little records what its correct
+  behaviour actually is. Rebuilding it means re-deriving business rules from source, with no
+  safety net telling us when one is wrong. <b>Behaviour extraction has to be funded work, not an
+  assumption.</b></p>
 </section>
 
 <!-- ============ 04 WHAT NEEDS TO BE BUILT ============ -->
