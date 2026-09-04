@@ -154,8 +154,8 @@
       <span class="node keep">TAS</span><span class="arw">→</span>
       <span class="node keep">CSP app</span>
     </div>
-    <p class="chain-note">The call-centre team gets a ticket-viewing and creation tool on
-    <b>Wiom Hub</b>, our internal platform, reading and writing the same store — rather than a
+    <p class="chain-note">The call-centre team gets a ticket-viewing and creation tool built once
+    on an <b>existing internal platform</b>, reading and writing the same store — rather than a
     third-party CRM holding its own copy.</p>
   </div>
 </section>
@@ -212,7 +212,7 @@
     </div>
     <div class="sw in">
       <span class="sw-l">Created</span>
-      <ul><li>New Ticket Service</li><li>Wiom Hub agent console</li></ul>
+      <ul><li>New Ticket Service</li><li>Agent console, on an existing internal tool</li></ul>
     </div>
     <div class="sw same">
       <span class="sw-l">Unchanged</span>
@@ -230,7 +230,7 @@
       <tr><td>Ticket state</td><td class="now">Four vocabularies, no shared word</td><td class="next">One state machine</td></tr>
       <tr><td>Deadline / TAT</td><td class="now">Two engines that never read each other</td><td class="next">One engine, one clock, every surface</td></tr>
       <tr><td>Classification</td><td class="now">Kapture dropdown, re-derived again in SRS</td><td class="next">One mapping, applied once</td></tr>
-      <tr><td>Agent workspace</td><td class="now">Kapture</td><td class="next">Wiom Hub, on our own data</td></tr>
+      <tr><td>Agent workspace</td><td class="now">Kapture</td><td class="next">An internal console, on our own data</td></tr>
       <tr><td>Agent &amp; CSP profiles</td><td class="now">Re-created inside Kapture</td><td class="next">Read from our existing identity systems</td></tr>
       <tr><td>CSP contact shown to the customer</td><td class="now">A legacy mapping table</td><td class="next">The live CSP record</td></tr>
       <tr><td>Call context &amp; comments</td><td class="now">Captured, then stops at Kapture</td><td class="next">On the ticket, visible to the CSP</td></tr>
@@ -278,7 +278,7 @@
     <div class="bb-b">
       <p>Every way a ticket is created today points at the new service instead of the old chain.</p>
       <div class="parts">
-        <div class="part"><b>IVR / call centre</b><span>Agent-created tickets via the Wiom Hub API</span></div>
+        <div class="part"><b>IVR / call centre</b><span>Agent-created tickets via the console API</span></div>
         <div class="part"><b>Customer app chat</b><span>Existing self-diagnosis flow, repointed at the new service</span></div>
         <div class="part"><b>Direct / system-raised</b><span>Including the proactive path, once detection exists</span></div>
       </div>
@@ -286,10 +286,12 @@
   </div>
 
   <div class="bb">
-    <div class="bb-h"><span class="bb-n">B3</span><h3>Wiom Hub — agent console</h3><span class="bb-k build">Build</span></div>
+    <div class="bb-h"><span class="bb-n">B3</span><h3>Agent console</h3><span class="bb-k build">Build</span></div>
     <div class="bb-b">
-      <p>The replacement for what Kapture does for the CX team, on our own platform and our own
-      data. This is the largest single new build and the one most likely to be underestimated.</p>
+      <p>The replacement for what Kapture does for the CX team — a ticket-viewing and creation
+      surface reading and writing our own data. A <b>one-time build on an existing internal tool</b>
+      (Wiom Hub or whichever platform we already run), not a new product. It is still the largest
+      single new build here, and the one most likely to be underestimated.</p>
       <div class="parts">
         <div class="part"><b>Ticket list, search, filters</b><span>The agent's daily working surface</span></div>
         <div class="part"><b>Ticket detail + full history</b><span>One timeline including CSP and technician activity</span></div>
