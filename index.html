@@ -56,6 +56,14 @@
   tr.tot td { border-bottom:none; border-top:1.5px solid var(--rule); font-weight:700; padding-top:11px; }
   .tw { overflow-x:auto; margin-bottom:14px; }
 
+  .cbox { border:1px solid #F0D2CE; border-left:3px solid var(--crit); border-radius:8px; background:var(--crit-wash); padding:15px 18px; margin-bottom:16px; }
+  .cbox h3 { font-size:.92rem; font-weight:650; color:var(--crit); margin:0 0 4px; }
+  .cbox > p { font-size:.85rem; color:var(--ink-soft); margin:0 0 11px; max-width:78ch; }
+  .cgrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(268px,1fr)); gap:7px; }
+  .ci { background:var(--surface); border-radius:6px; padding:9px 12px; }
+  .ci b { display:block; font-size:.805rem; font-weight:650; color:var(--ink); margin-bottom:2px; line-height:1.32; }
+  .ci span { font-size:.785rem; color:var(--slate); line-height:1.42; }
+
   /* two-col why */
   .why2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:8px; }
   @media (max-width:680px) { .why2 { grid-template-columns:1fr; } }
@@ -140,6 +148,19 @@
 <!-- ============ 02 WHY ============ -->
 <section class="sec">
   <div class="sec-head"><span class="sec-num">02</span><h2>Why consolidate</h2></div>
+
+  <div class="cbox">
+    <h3>What the customer runs into today</h3>
+    <p>Every one of these is a consequence of the split — not a feature we forgot to build.</p>
+    <div class="cgrid">
+      <div class="ci"><b>Told one deadline, held to another</b><span>The time promised to the customer is computed by one system; the CSP works to a different one</span></div>
+      <div class="ci"><b>Calls their CSP and reaches a stranger</b><span>The app reads the partner's name and number from a legacy table, not the live record</span></div>
+      <div class="ci"><b>Says it is working, and a CSP still turns up</b><span>A closure made by an agent never reaches the CSP's app, so the visit still happens</span></div>
+      <div class="ci"><b>Tells us when they are home, and we arrive later</b><span>Availability is logged as a comment in one system that no other system reads</span></div>
+      <div class="ci"><b>Repeats the whole story on a reopen</b><span>The link back to the original ticket is stored, but never sent to the CSP working it</span></div>
+      <div class="ci"><b>Can see nothing, so calls again</b><span>The app reads a record that knows nothing about the work actually in progress</span></div>
+    </div>
+  </div>
 
   <div class="why2">
     <div class="wc bad">
