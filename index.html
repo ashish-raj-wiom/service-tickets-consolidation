@@ -154,6 +154,10 @@
       <span class="node keep">TAS</span><span class="arw">→</span>
       <span class="node keep">CSP app</span>
     </div>
+    <p class="chain-note"><b>Scope: every ticket type, not only service.</b> Kapture today spans
+    ten categories and 55 dispositions — internet, payment, refund, cash collection, router pickup,
+    shifting, change requests, connection removal and partner misbehaviour. SRS currently sees only
+    a subset. The new service takes all of them.</p>
     <p class="chain-note">The call-centre team gets a ticket-viewing and creation tool built once
     on an <b>existing internal platform</b>, reading and writing the same store — rather than a
     third-party CRM holding its own copy.</p>
@@ -269,7 +273,13 @@
         <div class="part"><b>Escalation &amp; timers</b><span>First-response and breach handling, one ladder</span></div>
         <div class="part"><b>Idempotency &amp; dedup</b><span>One contact produces one ticket, however it arrives</span></div>
         <div class="part"><b>Event publishing</b><span>Outbound contracts to TAS, Quality OS and both apps</span></div>
+        <div class="part"><b>All ten ticket categories</b><span>Not only service — payment, refund, cash collection, shifting, removal and the rest</span></div>
+        <div class="part"><b>Observability &amp; alerting</b><span>Needed from day one; during dual-run it is the only way divergence is visible</span></div>
       </div>
+      <p class="flag"><b>What consolidation costs us.</b> Today if SRS is down, agents still create
+      tickets in Kapture and the record survives. Afterwards one service down means no tickets at
+      all — no creation, no agent view, no CSP card. We are trading four fragile systems for one
+      critical one, and it needs an availability target to match.</p>
     </div>
   </div>
 
@@ -299,6 +309,8 @@
         <div class="part"><b>Queue &amp; assignment</b><span>Whatever queue logic we choose to keep</span></div>
         <div class="part"><b>CX reporting</b><span>Whatever the team runs in Kapture today and still needs</span></div>
         <div class="part"><b>Identity</b><span>Agents, CSPs and customers read from our systems — no duplicate profiles</span></div>
+        <div class="part"><b>All ten categories</b><span>Every workflow Kapture carries today, not just service tickets</span></div>
+        <div class="part"><b>Roles &amp; access control</b><span>Agent permissions Kapture enforces today have to exist here</span></div>
       </div>
       <p class="flag"><b>Scope risk.</b> If Kapture also provides telephony — call pop-up,
       click-to-dial, recording — this block is materially larger than a ticket UI. That must be
@@ -315,7 +327,7 @@
         <div class="part"><b>TAS</b><span>12 files — the execution contract, including reopen lineage it never received</span></div>
         <div class="part"><b>Gateway</b><span>10 files — including the CSP identity source</span></div>
         <div class="part"><b>shared-libs</b><span>14 files — shared contracts every service inherits</span></div>
-        <div class="part"><b>Quality OS</b><span>2 files — the scoring feed, now chain-aware</span></div>
+        <div class="part"><b>Quality OS</b><span>The scoring feed — small in code, but it drives CSP score, bonus and routing, so any change to it changes pay and needs sign-off beyond engineering</span></div>
         <div class="part"><b>Connection lifecycle</b><span>2 files</span></div>
         <div class="part"><b>Bridge</b><span>1 file</span></div>
       </div>
@@ -357,7 +369,7 @@
         <div class="part"><b>Dual-run</b><span>Both systems processing, differences surfaced rather than discovered</span></div>
         <div class="part"><b>CSP-wise phasing</b><span>A controlled cohort before general rollout</span></div>
         <div class="part"><b>Reconciliation dashboards</b><span>The measure that decides whether we proceed</span></div>
-        <div class="part"><b>Rollback path</b><span>A defined way back at every phase</span></div>
+        <div class="part"><b>Rollback path</b><span>Real, not nominal — once agents write to the new store, going back means reverse migration</span></div>
       </div>
     </div>
   </div>
@@ -381,14 +393,15 @@
 <section class="sec">
   <div class="sec-head"><span class="sec-num">05</span><h2>Answer before approving</h2></div>
   <div class="qs">
-    <h3>Four unknowns that could change the shape of this</h3>
+    <h3>Six things to settle before this is a plan</h3>
     <ol>
-      <li><b>Does Kapture provide telephony?</b> Call pop-up, click-to-dial or recording would make B3 a CTI programme rather than a ticket UI. This is the single biggest swing factor.</li>
-      <li><b>What else does CX run in Kapture?</b> SLA reporting, agent performance, QA scoring, other ticket types beyond service — none of it is visible in our repositories, and all of it needs a home.</li>
-      <li><b>How much history has to migrate, and how far back?</b> This sets the size of B6 and whether archive-only is acceptable for older records.</li>
-      <li><b>Who owns the downstream changes?</b> 41 files sit with five other teams. Without their commitment this cannot be scheduled, only hoped for.</li>
+      <li><b>Does Kapture provide telephony?</b> Call pop-up, click-to-dial or recording would make the agent console a CTI programme rather than a ticket UI. The single biggest swing factor on size.</li>
+      <li><b>What are the Kapture exit terms, and can we get our data out?</b> Notice period and lock-in decide when the saving actually starts. Whether a full, usable history export exists decides whether migration is possible at all.</li>
+      <li><b>What else does CX run in Kapture beyond tickets?</b> SLA reporting, agent performance, QA scoring — none of it is visible in our repositories, and all of it needs a home.</li>
+      <li><b>How much history migrates, and how far back?</b> This sets the size of the migration and whether archive-only is acceptable for older records.</li>
+      <li><b>Who owns the downstream changes, and who owns CX adoption?</b> Files sit with five other teams, and agents work in Kapture all day — moving them is a change-management job with a named owner, not a release note.</li>
+      <li><b>Who owns the service after launch?</b> One service touching CX, CSP and customer surfaces will attract requests from all three, indefinitely.</li>
     </ol>
-  </div>
-</section>
+  </div></section>
 
 </div>
