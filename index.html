@@ -1,0 +1,332 @@
+<title>One Ticket Service — Build Scope</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --ground:#FBFBFA; --surface:#FFFFFF; --surface-alt:#F3F4F6;
+    --ink:#16191D; --ink-soft:#3E444C; --slate:#6A717B; --slate-light:#9AA1AB;
+    --rule:#E2E4E8; --rule-soft:#EFF0F2;
+    --accent:#8A5A12; --accent-wash:#FBF4E7;
+    --crit:#A32219; --crit-wash:#FCEEEC;
+    --future:#1F4E9C; --future-wash:#EEF3FC;
+    --good:#2F6B3A; --good-wash:#EDF5EE;
+    --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --serif:"Source Serif 4",Georgia,serif;
+    --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+    color-scheme: light;
+  }
+  *,*::before,*::after { box-sizing:border-box; }
+  body { margin:0; background:var(--ground); color:var(--ink); font-family:var(--sans); font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:980px; margin:0 auto; padding:0 30px 80px; }
+
+  header { padding:46px 0 0; }
+  .label { font-size:10.5px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:14px; }
+  h1 { font-size:clamp(1.7rem,3.8vw,2.35rem); font-weight:700; letter-spacing:-.025em; line-height:1.12; margin:0 0 12px; }
+  .sub { font-family:var(--serif); font-size:1.08rem; line-height:1.5; color:var(--ink-soft); max-width:64ch; margin:0 0 20px; }
+  .by { font-size:12.5px; color:var(--slate); padding-bottom:22px; border-bottom:1px solid var(--rule); }
+
+  h2 { font-size:1.18rem; font-weight:650; letter-spacing:-.015em; margin:0; }
+  .sec { margin:46px 0 0; }
+  .sec-head { display:flex; align-items:baseline; gap:13px; padding-bottom:10px; border-bottom:2px solid var(--ink); margin-bottom:20px; }
+  .sec-num { font-size:12px; font-weight:700; color:var(--accent); letter-spacing:.08em; }
+  .lede { font-family:var(--serif); font-size:1rem; color:var(--ink-soft); max-width:70ch; margin:0 0 22px; }
+  code { font-family:var(--mono); font-size:.79em; background:var(--surface-alt); border-radius:3px; padding:.12em .38em; }
+
+  /* chain diagram */
+  .chain-wrap { margin-bottom:16px; }
+  .chain-l { font-size:9.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; display:block; margin-bottom:7px; }
+  .chain-l.now { color:var(--crit); }
+  .chain-l.next { color:var(--good); }
+  .chain { display:flex; align-items:stretch; flex-wrap:wrap; gap:7px; }
+  .node { flex:0 1 auto; padding:9px 14px; border-radius:7px; font-size:.85rem; font-weight:620; border:1px solid var(--rule); background:var(--surface); }
+  .node.gone { background:var(--crit-wash); border-color:#F0D2CE; color:var(--crit); text-decoration:line-through; text-decoration-thickness:1px; }
+  .node.new { background:var(--good-wash); border-color:#CFE3D3; color:var(--good); }
+  .node.keep { color:var(--ink-soft); }
+  .arw { align-self:center; color:var(--slate-light); font-size:.9rem; }
+  .chain-note { font-size:.8rem; color:var(--slate); margin:8px 0 0; }
+
+  /* retire table */
+  table { width:100%; border-collapse:collapse; font-size:.87rem; }
+  th { text-align:left; font-size:10px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--slate); padding:0 14px 8px 0; border-bottom:1.5px solid var(--rule); }
+  td { padding:10px 14px 10px 0; border-bottom:1px solid var(--rule-soft); vertical-align:top; line-height:1.45; }
+  td:first-child { font-weight:650; white-space:nowrap; }
+  td.num { font-family:var(--mono); font-size:.83rem; color:var(--ink-soft); white-space:nowrap; }
+  tr.tot td { border-bottom:none; border-top:1.5px solid var(--rule); font-weight:700; padding-top:11px; }
+  .tw { overflow-x:auto; margin-bottom:14px; }
+
+  /* two-col why */
+  .why2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:8px; }
+  @media (max-width:680px) { .why2 { grid-template-columns:1fr; } }
+  .wc { border:1px solid var(--rule); border-radius:8px; padding:15px 18px; background:var(--surface); }
+  .wc.bad { border-top:3px solid var(--crit); }
+  .wc.good { border-top:3px solid var(--good); }
+  .wc h3 { font-size:.92rem; font-weight:650; margin:0 0 9px; }
+  .wc.bad h3 { color:var(--crit); }
+  .wc.good h3 { color:var(--good); }
+  .wc ul { margin:0; padding-left:16px; font-size:.85rem; line-height:1.5; color:var(--ink-soft); }
+  .wc li { margin-bottom:4px; }
+  .wc li:last-child { margin-bottom:0; }
+
+  /* build blocks */
+  .bb { border:1px solid var(--rule); border-radius:9px; background:var(--surface); margin-bottom:14px; overflow:hidden; }
+  .bb-h { display:flex; align-items:baseline; gap:11px; padding:12px 17px; background:var(--surface-alt); border-bottom:1px solid var(--rule); }
+  .bb-n { font-family:var(--mono); font-size:.78rem; font-weight:500; color:var(--accent); }
+  .bb-h h3 { font-size:.97rem; font-weight:650; margin:0; }
+  .bb-k { margin-left:auto; font-size:9.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; padding:2px 8px; border-radius:4px; white-space:nowrap; }
+  .bb-k.build { background:var(--future-wash); color:var(--future); }
+  .bb-k.change { background:var(--accent-wash); color:var(--accent); }
+  .bb-k.retire { background:var(--crit-wash); color:var(--crit); }
+  .bb-b { padding:13px 17px 14px; }
+  .bb-b > p { font-size:.86rem; color:var(--ink-soft); margin:0 0 10px; max-width:76ch; }
+  .parts { display:grid; grid-template-columns:repeat(auto-fit,minmax(228px,1fr)); gap:7px; }
+  .part { background:var(--surface-alt); border-radius:6px; padding:9px 12px; }
+  .part b { display:block; font-size:.79rem; font-weight:650; color:var(--ink); margin-bottom:2px; line-height:1.3; }
+  .part span { font-size:.785rem; color:var(--slate); line-height:1.42; }
+
+  .flag { font-size:.83rem; color:var(--ink-soft); background:var(--accent-wash); border-radius:6px; padding:9px 13px; margin-top:11px; max-width:78ch; }
+  .flag b { color:var(--accent); }
+
+  .qs { border:1px solid var(--rule); border-left:3px solid var(--crit); border-radius:8px; background:var(--surface); padding:16px 20px; }
+  .qs h3 { font-size:.95rem; font-weight:650; margin:0 0 10px; }
+  .qs ol { margin:0; padding-left:18px; font-size:.87rem; line-height:1.55; color:var(--ink-soft); }
+  .qs li { margin-bottom:8px; }
+  .qs li:last-child { margin-bottom:0; }
+  .qs b { color:var(--ink); }
+</style>
+
+<div class="wrap">
+
+<header>
+  <div class="label">Service Tickets POD · Build scope · For approval</div>
+  <h1>One Ticket Service: what it would take</h1>
+  <p class="sub">Consolidating Kapture, Ticket Service Java and SRS into a single governing
+  service. This page is the build inventory — what gets retired, what gets built, and what has to
+  change around it. Effort and sequencing are sized separately.</p>
+  <div class="by">Ashish Raj · PM, Service Tickets POD</div>
+</header>
+
+<!-- ============ 01 THE CHANGE ============ -->
+<section class="sec">
+  <div class="sec-head"><span class="sec-num">01</span><h2>The change</h2></div>
+
+  <div class="chain-wrap">
+    <span class="chain-l now">Today — five hops, three systems of record</span>
+    <div class="chain">
+      <span class="node keep">Ticket creation</span><span class="arw">→</span>
+      <span class="node gone">Kapture</span><span class="arw">→</span>
+      <span class="node gone">Ticket Service Java</span><span class="arw">→</span>
+      <span class="node gone">SRS</span><span class="arw">→</span>
+      <span class="node keep">TAS</span><span class="arw">→</span>
+      <span class="node keep">CSP app</span>
+    </div>
+  </div>
+
+  <div class="chain-wrap">
+    <span class="chain-l next">Proposed — one governing body</span>
+    <div class="chain">
+      <span class="node keep">Ticket creation</span><span class="arw">→</span>
+      <span class="node new">New Ticket Service</span><span class="arw">→</span>
+      <span class="node keep">TAS</span><span class="arw">→</span>
+      <span class="node keep">CSP app</span>
+    </div>
+    <p class="chain-note">The call-centre team gets a ticket-viewing and creation tool on
+    <b>Wiom Hub</b>, our internal platform, reading and writing the same store — rather than a
+    third-party CRM holding its own copy.</p>
+  </div>
+</section>
+
+<!-- ============ 02 WHY ============ -->
+<section class="sec">
+  <div class="sec-head"><span class="sec-num">02</span><h2>Why consolidate</h2></div>
+
+  <div class="why2">
+    <div class="wc bad">
+      <h3>What three services cost us today</h3>
+      <ul>
+        <li>Three <b>state machines</b> — "resolved" means something different in each</li>
+        <li>Three <b>databases</b>, none authoritative</li>
+        <li>Three sets of <b>backend logic</b> that have gone unchecked against each other</li>
+        <li>The systems do not talk effectively — data stops at boundaries nobody owns</li>
+        <li>Every new person has to learn all three before changing anything</li>
+      </ul>
+    </div>
+    <div class="wc good">
+      <h3>What one service gives us</h3>
+      <ul>
+        <li><b>One store.</b> Agent view, CSP app and customer app all read the same record</li>
+        <li><b>One logic engine</b> — reopening, TAT and classification defined once</li>
+        <li><b>One state machine.</b> A ticket in <code>Resolved</code> means the same to every reader</li>
+        <li><b>No sync layer</b>, so no sync failures to detect, reconcile or explain</li>
+        <li>One identity — CSP and customer profiles read from our systems, not re-created</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 WHAT GETS RETIRED ============ -->
+<section class="sec">
+  <div class="sec-head"><span class="sec-num">03</span><h2>What gets retired</h2></div>
+  <p class="lede">Measured from the current codebases, so the scope is a count rather than an
+  impression.</p>
+
+  <div class="tw">
+    <table>
+      <tr><th>Service</th><th>Files</th><th>Lines</th><th>Endpoints</th><th>Stores</th><th>Test coverage</th></tr>
+      <tr><td>SRS</td><td class="num">134</td><td class="num">9,613</td><td class="num">31</td><td class="num">6 entities · 20 migrations</td><td class="num">44%</td></tr>
+      <tr><td>Ticket Service Java</td><td class="num">230</td><td class="num">23,369</td><td class="num">73</td><td class="num">5 DynamoDB tables</td><td class="num">2.5%</td></tr>
+      <tr><td>Kapture</td><td class="num">3rd party</td><td class="num">—</td><td class="num">—</td><td class="num">its own DB</td><td class="num">—</td></tr>
+      <tr class="tot"><td>Total</td><td class="num">364</td><td class="num">~33,000</td><td class="num">104</td><td class="num">11+</td><td class="num">—</td></tr>
+    </table>
+  </div>
+
+  <p class="flag"><b>The number that should drive the plan.</b> Ticket Service Java carries
+  <b>592 lines of test against 23,369 lines of code</b>. It is the largest of the three, the
+  oldest, and holds 3,000+ references to Kapture — and almost nothing records what its correct
+  behaviour is. Rebuilding it is not porting logic; it is re-deriving business rules from source,
+  with no safety net telling us when we got one wrong. <b>Behaviour extraction has to be a funded
+  piece of work, not an assumption.</b></p>
+</section>
+
+<!-- ============ 04 WHAT NEEDS TO BE BUILT ============ -->
+<section class="sec">
+  <div class="sec-head"><span class="sec-num">04</span><h2>What needs to be built</h2></div>
+  <p class="lede">Eight blocks. Three are new software, three are changes to things that already
+  exist, and two are the operational work of getting there safely.</p>
+
+  <div class="bb">
+    <div class="bb-h"><span class="bb-n">B1</span><h3>New Ticket Service — the core</h3><span class="bb-k build">Build</span></div>
+    <div class="bb-b">
+      <p>One service holding the ticket record, its state machine and every rule currently split
+      across SRS and Ticket Service Java.</p>
+      <div class="parts">
+        <div class="part"><b>Ticket domain + single state machine</b><span>One vocabulary replacing four; every transition defined once</span></div>
+        <div class="part"><b>One TAT / SLA engine</b><span>Per-subtype deadlines on one clock, with one working-window definition</span></div>
+        <div class="part"><b>Classification &amp; routing</b><span>Issue type → subtype → executor, from one mapping table</span></div>
+        <div class="part"><b>Reopen lineage &amp; chain scoring</b><span>A reopen linked to its original, measured and scored as one problem</span></div>
+        <div class="part"><b>Verification &amp; closure</b><span>A check that can block a closure, with the customer as fallback</span></div>
+        <div class="part"><b>Escalation &amp; timers</b><span>First-response and breach handling, one ladder</span></div>
+        <div class="part"><b>Idempotency &amp; dedup</b><span>One contact produces one ticket, however it arrives</span></div>
+        <div class="part"><b>Event publishing</b><span>Outbound contracts to TAS, Quality OS and both apps</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bb">
+    <div class="bb-h"><span class="bb-n">B2</span><h3>Intake layer — all three creation paths</h3><span class="bb-k change">Change</span></div>
+    <div class="bb-b">
+      <p>Every way a ticket is created today points at the new service instead of the old chain.</p>
+      <div class="parts">
+        <div class="part"><b>IVR / call centre</b><span>Agent-created tickets via the Wiom Hub API</span></div>
+        <div class="part"><b>Customer app chat</b><span>Existing self-diagnosis flow, repointed at the new service</span></div>
+        <div class="part"><b>Direct / system-raised</b><span>Including the proactive path, once detection exists</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bb">
+    <div class="bb-h"><span class="bb-n">B3</span><h3>Wiom Hub — agent console</h3><span class="bb-k build">Build</span></div>
+    <div class="bb-b">
+      <p>The replacement for what Kapture does for the CX team, on our own platform and our own
+      data. This is the largest single new build and the one most likely to be underestimated.</p>
+      <div class="parts">
+        <div class="part"><b>Ticket list, search, filters</b><span>The agent's daily working surface</span></div>
+        <div class="part"><b>Ticket detail + full history</b><span>One timeline including CSP and technician activity</span></div>
+        <div class="part"><b>Create &amp; update</b><span>Disposition capture, comments that reach the CSP</span></div>
+        <div class="part"><b>Queue &amp; assignment</b><span>Whatever queue logic we choose to keep</span></div>
+        <div class="part"><b>CX reporting</b><span>Whatever the team runs in Kapture today and still needs</span></div>
+        <div class="part"><b>Identity</b><span>Agents, CSPs and customers read from our systems — no duplicate profiles</span></div>
+      </div>
+      <p class="flag"><b>Scope risk.</b> If Kapture also provides telephony — call pop-up,
+      click-to-dial, recording — this block is materially larger than a ticket UI. That must be
+      confirmed before this page becomes a plan.</p>
+    </div>
+  </div>
+
+  <div class="bb">
+    <div class="bb-h"><span class="bb-n">B4</span><h3>Downstream contracts</h3><span class="bb-k change">Change</span></div>
+    <div class="bb-b">
+      <p>Six services already couple to SRS or Ticket Service and must be repointed —
+      <b>41 files outside this POD</b>, on other teams' schedules.</p>
+      <div class="parts">
+        <div class="part"><b>TAS</b><span>12 files — the execution contract, including reopen lineage it never received</span></div>
+        <div class="part"><b>Gateway</b><span>10 files — including the CSP identity source</span></div>
+        <div class="part"><b>shared-libs</b><span>14 files — shared contracts every service inherits</span></div>
+        <div class="part"><b>Quality OS</b><span>2 files — the scoring feed, now chain-aware</span></div>
+        <div class="part"><b>Connection lifecycle</b><span>2 files</span></div>
+        <div class="part"><b>Bridge</b><span>1 file</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bb">
+    <div class="bb-h"><span class="bb-n">B5</span><h3>Customer app &amp; CSP app</h3><span class="bb-k change">Change</span></div>
+    <div class="bb-b">
+      <p>Both apps read ticket state directly from the new service. Mobile releases are not
+      instant, so these gate the cutover.</p>
+      <div class="parts">
+        <div class="part"><b>Customer app</b><span>Live status, correct CSP contact, reopen and confirmation flows</span></div>
+        <div class="part"><b>CSP app</b><span>Card, actions and timeline against the new contract</span></div>
+        <div class="part"><b>Backward compatibility</b><span>Older app versions keep working through the transition</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bb">
+    <div class="bb-h"><span class="bb-n">B6</span><h3>Data migration</h3><span class="bb-k build">Build</span></div>
+    <div class="bb-b">
+      <p>Eleven-plus stores collapse into one, without losing history or dropping tickets that are
+      open at the moment of cutover.</p>
+      <div class="parts">
+        <div class="part"><b>Schema &amp; state mapping</b><span>Four status vocabularies reconciled to one, record by record</span></div>
+        <div class="part"><b>Historical backfill</b><span>Volume to be confirmed — creation runs well over a thousand a day</span></div>
+        <div class="part"><b>In-flight cutover</b><span>Hundreds of tickets are open at any moment; none can be stranded</span></div>
+        <div class="part"><b>Reconciliation</b><span>Proving old and new agree before we trust the new one</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bb">
+    <div class="bb-h"><span class="bb-n">B7</span><h3>Rollout</h3><span class="bb-k change">Change</span></div>
+    <div class="bb-b">
+      <p>Phased by CSP, with both systems live until the new one is proven.</p>
+      <div class="parts">
+        <div class="part"><b>Dual-run</b><span>Both systems processing, differences surfaced rather than discovered</span></div>
+        <div class="part"><b>CSP-wise phasing</b><span>A controlled cohort before general rollout</span></div>
+        <div class="part"><b>Reconciliation dashboards</b><span>The measure that decides whether we proceed</span></div>
+        <div class="part"><b>Rollback path</b><span>A defined way back at every phase</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bb">
+    <div class="bb-h"><span class="bb-n">B8</span><h3>Decommission</h3><span class="bb-k retire">Retire</span></div>
+    <div class="bb-b">
+      <p>The saving and the simplification only land when the old systems are actually switched
+      off — not when the new one goes live.</p>
+      <div class="parts">
+        <div class="part"><b>Kapture contract exit</b><span>Where the licence cost stops</span></div>
+        <div class="part"><b>Ticket Service Java shutdown</b><span>Only after every consumer is repointed</span></div>
+        <div class="part"><b>SRS shutdown</b><span>Including its timers and scheduled work</span></div>
+        <div class="part"><b>Archive &amp; retention</b><span>Historical access preserved wherever CX or finance needs it</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 BEFORE WE COMMIT ============ -->
+<section class="sec">
+  <div class="sec-head"><span class="sec-num">05</span><h2>Answer before approving</h2></div>
+  <div class="qs">
+    <h3>Four unknowns that could change the shape of this</h3>
+    <ol>
+      <li><b>Does Kapture provide telephony?</b> Call pop-up, click-to-dial or recording would make B3 a CTI programme rather than a ticket UI. This is the single biggest swing factor.</li>
+      <li><b>What else does CX run in Kapture?</b> SLA reporting, agent performance, QA scoring, other ticket types beyond service — none of it is visible in our repositories, and all of it needs a home.</li>
+      <li><b>How much history has to migrate, and how far back?</b> This sets the size of B6 and whether archive-only is acceptable for older records.</li>
+      <li><b>Who owns the downstream changes?</b> 41 files sit with five other teams. Without their commitment this cannot be scheduled, only hoped for.</li>
+    </ol>
+  </div>
+</section>
+
+</div>
